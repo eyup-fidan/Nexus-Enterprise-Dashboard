@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Enterprise Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+    
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar__logo">
+                <i class="fa-solid fa-layer-group"></i> NEXUS
+            </div>
+            <nav class="sidebar__menu">
+                <a href="#" class="sidebar__link sidebar__link--active" data-target="view-dashboard">
+                    <i class="fa-solid fa-chart-pie"></i> Dashboard
+                </a>
+                <a href="#" class="sidebar__link" data-target="view-projects">
+                    <i class="fa-solid fa-bars-progress"></i> Projects
+                </a>
+                <a href="#" class="sidebar__link" data-target="view-customers">
+                    <i class="fa-solid fa-users"></i> Customers
+                </a>
+                <a href="#" class="sidebar__link" data-target="view-sales">
+                    <i class="fa-solid fa-bag-shopping"></i> Sales
+                </a>
+                <a href="#" class="sidebar__link" data-target="view-analytics">
+                    <i class="fa-solid fa-chart-line"></i> Analytics
+                </a>
+            </nav>
+            <div class="sidebar__footer">
+                <a href="#" class="sidebar__link" data-target="view-settings">
+                    <i class="fa-solid fa-gear"></i> Settings
+                </a>
+            </div>
+        </aside>
+
+        <div class="main-content">
+            <header class="topbar">
+                <div class="topbar__left">
+                    <button id="mobile-menu-btn" class="mobile-menu-btn">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="topbar__search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search for analytics...">
+                    </div>
+                </div>
+                <div class="topbar__user">
+                    <button id="theme-toggle" class="topbar__icon" title="Toggle Theme">
+                        <i class="fa-regular fa-moon"></i>
+                    </button>
+                    
+                    <div class="notification-wrapper">
+                        <button class="topbar__icon" id="notification-btn">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="notification-dot" id="notification-badge" style="display: none;">0</span>
+                        </button>
+                        <div class="dropdown-menu notification-dropdown" id="notification-dropdown">
+                            <div class="dropdown-header">
+                                <span>Notifications</span>
+                                <a href="#" id="clear-notifications">Mark all as read</a>
+                            </div>
+                            <div class="notification-list" id="notification-list">
+                                <div class="empty-notif">No new notifications</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="user-profile-wrapper">
+                        <div class="user-profile" id="user-profile-btn">
+                            <img src="https://ui-avatars.com/api/?name=Eyup+Fidan&background=0D8ABC&color=fff" alt="User" class="user-avatar">
+                            <div class="user-details">
+                                <span class="user-name">Eyup Fidan</span>
+                                <span class="user-role">Admin</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down user-dropdown-icon"></i>
+                        </div>
+                        <div class="dropdown-menu" id="profile-dropdown">
+                            <a href="#" class="dropdown-item"><i class="fa-regular fa-user"></i> My Profile</a>
+                            <a href="#" class="dropdown-item"><i class="fa-solid fa-gear"></i> Account Settings</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item text-danger"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="content-wrapper">
+                
+                <section id="view-dashboard" class="view view--active">
+                    <div class="dashboard-grid">
+                        <article class="card card--stat">
+                            <h3><i class="fa-solid fa-wallet"></i> Total Revenue</h3>
+                            <p class="stat-value">$42,500</p>
+                            <span class="stat-trend stat-trend--up"><i class="fa-solid fa-arrow-trend-up"></i> +12%</span>
+                        </article>
+                        <article class="card card--stat">
+                            <h3><i class="fa-solid fa-user-group"></i> Active Users</h3>
+                            <p class="stat-value">1,240</p>
+                            <span class="stat-trend stat-trend--up"><i class="fa-solid fa-arrow-trend-up"></i> +5%</span>
+                        </article>
+                        <article class="card card--donut-overview">
+                            <h3><i class="fa-solid fa-mobile-screen"></i> Device Usage</h3>
+                            <div class="donut-container">
+                                <div class="donut-chart" style="--percentage: 65%">
+                                    <div class="donut-center">65%</div>
+                                </div>
+                                <div class="donut-legend">
+                                    <div class="legend-item"><span class="dot" style="background: var(--primary-color)"></span><span>Desktop (65%)</span></div>
+                                    <div class="legend-item"><span class="dot" style="background: var(--warning-color)"></span><span>Mobile (25%)</span></div>
+                                    <div class="legend-item"><span class="dot" style="background: var(--danger-color)"></span><span>Tablet (10%)</span></div>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="card card--wide">
+                            <h3><i class="fa-solid fa-chart-simple"></i> Traffic Overview</h3>
+                            <div class="chart-container">
+                                <div class="chart-bars">
+                                    <div class="bar" style="--h: 40%" data-label="Pzt"></div>
+                                    <div class="bar" style="--h: 70%" data-label="Sal"></div>
+                                    <div class="bar" style="--h: 55%" data-label="Çar"></div>
+                                    <div class="bar" style="--h: 85%" data-label="Per"></div>
+                                    <div class="bar" style="--h: 60%" data-label="Cum"></div>
+                                    <div class="bar" style="--h: 90%" data-label="Cmt"></div>
+                                    <div class="bar" style="--h: 50%" data-label="Paz"></div>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="card card--tall">
+                            <h3><i class="fa-solid fa-list-ul"></i> Recent Leads</h3>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead><tr><th>Customer</th><th>Status</th><th>Value</th></tr></thead>
+                                    <tbody>
+                                        <tr><td><div class="user-info"><div class="user-initials" style="background: #E0F2FE; color: #0284C7">AH</div><span>Ahmet Yılmaz</span></div></td><td><span class="badge badge--success"><span class="dot"></span>New</span></td><td>$120.00</td></tr>
+                                        <tr><td><div class="user-info"><div class="user-initials" style="background: #FEF3C7; color: #D97706">ZK</div><span>Zeynep Kaya</span></div></td><td><span class="badge badge--warning"><span class="dot"></span>Pending</span></td><td>$350.00</td></tr>
+                                        <tr><td><div class="user-info"><div class="user-initials" style="background: #FEE2E2; color: #DC2626">ME</div><span>Mehmet Er</span></div></td><td><span class="badge badge--danger"><span class="dot"></span>Lost</span></td><td>$85.00</td></tr>
+                                        <tr><td><div class="user-info"><div class="user-initials" style="background: #F3E8FF; color: #7E22CE">AS</div><span>Ayşe Soylu</span></div></td><td><span class="badge badge--success"><span class="dot"></span>New</span></td><td>$210.00</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </article>
+                        <article class="card card--full-width">
+                            <h3><i class="fa-solid fa-money-bill-transfer"></i> Recent Transactions</h3>
+                            <div class="transaction-list">
+                                <div class="transaction-item"><div class="transaction-icon" style="background: #E0F2FE; color: var(--primary-color)"><i class="fa-brands fa-stripe-s"></i></div><div class="transaction-info"><p class="transaction-title">Stripe Payment</p><p class="transaction-date">Today, 14:30</p></div><span class="transaction-amount transaction-amount--plus">+$450.00</span></div>
+                                <div class="transaction-item"><div class="transaction-icon" style="background: #FEE2E2; color: var(--danger-color)"><i class="fa-brands fa-paypal"></i></div><div class="transaction-info"><p class="transaction-title">Paypal Refund</p><p class="transaction-date">Yesterday, 09:15</p></div><span class="transaction-amount transaction-amount--minus">-$85.00</span></div>
+                                <div class="transaction-item"><div class="transaction-icon" style="background: #DCFCE7; color: var(--success-color)"><i class="fa-solid fa-money-bill"></i></div><div class="transaction-info"><p class="transaction-title">Bank Transfer</p><p class="transaction-date">Dec 21, 2023</p></div><span class="transaction-amount transaction-amount--plus">+$1,200.00</span></div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section id="view-projects" class="view">
+                    <div class="view-header">
+                        <h2>Project Board</h2>
+                        <button class="btn btn--primary"><i class="fa-solid fa-plus"></i> New Task</button>
+                    </div>
+                    <div class="kanban-board">
+                        <div class="kanban-column" id="todo-column">
+                            <div class="kanban-header">
+                                <span class="status-dot status-todo"></span>
+                                <h3>To Do</h3>
+                                <span class="count">3</span>
+                            </div>
+                            <div class="kanban-items" ondrop="drop(event)" ondragover="allowDrop(event)" data-status="todo">
+                                <div class="kanban-card" draggable="true" ondragstart="drag(event)" id="task-1">
+                                    <div class="card-tags"><span class="tag tag--design">Design</span></div>
+                                    <h4 class="card-title">Homepage Redesign</h4>
+                                    <div class="card-meta">
+                                        <div class="card-users"><div class="user-initials sm" style="background: #E0F2FE; color: #0284C7">AH</div></div>
+                                        <div class="card-date"><i class="fa-regular fa-clock"></i> 2 days</div>
+                                    </div>
+                                </div>
+                                <div class="kanban-card" draggable="true" ondragstart="drag(event)" id="task-2">
+                                    <div class="card-tags"><span class="tag tag--dev">Backend</span></div>
+                                    <h4 class="card-title">API Integration</h4>
+                                    <div class="card-meta">
+                                        <div class="card-users"><div class="user-initials sm" style="background: #F3E8FF; color: #7E22CE">AS</div></div>
+                                        <div class="card-date"><i class="fa-regular fa-clock"></i> 5 days</div>
+                                    </div>
+                                </div>
+                                <div class="kanban-card" draggable="true" ondragstart="drag(event)" id="task-5">
+                                    <div class="card-tags"><span class="tag tag--marketing">Marketing</span></div>
+                                    <h4 class="card-title">SEO Optimization</h4>
+                                    <div class="card-meta">
+                                        <div class="card-users"><div class="user-initials sm" style="background: #DCFCE7; color: #166534">MK</div></div>
+                                        <div class="card-date"><i class="fa-regular fa-clock"></i> 1 week</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kanban-column" id="progress-column">
+                            <div class="kanban-header">
+                                <span class="status-dot status-progress"></span>
+                                <h3>In Progress</h3>
+                                <span class="count">1</span>
+                            </div>
+                            <div class="kanban-items" ondrop="drop(event)" ondragover="allowDrop(event)" data-status="progress">
+                                <div class="kanban-card" draggable="true" ondragstart="drag(event)" id="task-3">
+                                    <div class="card-tags"><span class="tag tag--dev">Frontend</span></div>
+                                    <h4 class="card-title">Dashboard Dark Mode</h4>
+                                    <div class="card-meta">
+                                        <div class="card-users"><div class="user-initials sm" style="background: #0D8ABC; color: #fff">EF</div></div>
+                                        <div class="card-date text-warning"><i class="fa-regular fa-clock"></i> Today</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kanban-column" id="done-column">
+                            <div class="kanban-header">
+                                <span class="status-dot status-done"></span>
+                                <h3>Done</h3>
+                                <span class="count">1</span>
+                            </div>
+                            <div class="kanban-items" ondrop="drop(event)" ondragover="allowDrop(event)" data-status="done">
+                                <div class="kanban-card" draggable="true" ondragstart="drag(event)" id="task-4">
+                                    <div class="card-tags"><span class="tag tag--design">Design</span></div>
+                                    <h4 class="card-title">Icon Set Selection</h4>
+                                    <div class="card-meta">
+                                        <div class="card-users"><div class="user-initials sm" style="background: #FEE2E2; color: #DC2626">BE</div></div>
+                                        <div class="card-date text-success"><i class="fa-solid fa-check"></i> Completed</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="view-customers" class="view">
+                    <div class="view-header">
+                        <h2>All Customers</h2>
+                        <div class="view-actions">
+                            <button class="btn btn--white"><i class="fa-solid fa-filter"></i> Filter</button>
+                            <button id="btn-add-customer" class="btn btn--primary"><i class="fa-solid fa-plus"></i> Add Customer</button>
+                        </div>
+                    </div>
+                    <div class="card card--full-width">
+                        <div class="table-controls">
+                            <div class="control-search">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="table-search" placeholder="Search customers by name...">
+                            </div>
+                            <div class="control-sort">
+                                <span>Sort by:</span>
+                                <select id="sort-select">
+                                    <option value="newest">Newest First</option>
+                                    <option value="oldest">Oldest First</option>
+                                    <option value="az">Name (A-Z)</option>
+                                    <option value="za">Name (Z-A)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table--striped" id="customers-table">
+                                <thead><tr><th>Customer</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="pagination">
+                            <span class="pagination-info" id="pagination-info">Showing all customers</span>
+                            <div class="pagination-buttons"><button disabled>Previous</button><button class="active">1</button><button>2</button><button>Next</button></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="view-sales" class="view">
+                    <div class="view-header"><h2>Sales Performance</h2></div>
+                    <div class="dashboard-grid">
+                        <article class="card card--stat">
+                            <h3><i class="fa-solid fa-cart-shopping"></i> Total Sales</h3>
+                            <p class="stat-value">1,482</p>
+                            <span class="stat-trend stat-trend--up"><i class="fa-solid fa-arrow-trend-up"></i> +8.2%</span>
+                        </article>
+                        <article class="card card--stat">
+                            <h3><i class="fa-solid fa-dollar-sign"></i> Avg. Order Value</h3>
+                            <p class="stat-value">$85.40</p>
+                            <span class="stat-trend stat-trend--down"><i class="fa-solid fa-arrow-trend-down"></i> -2.1%</span>
+                        </article>
+                        <article class="card card--stat">
+                            <h3><i class="fa-solid fa-rotate"></i> Conversion Rate</h3>
+                            <p class="stat-value">3.6%</p>
+                            <span class="stat-trend stat-trend--up"><i class="fa-solid fa-arrow-trend-up"></i> +0.5%</span>
+                        </article>
+                        <article class="card card--full-width">
+                            <h3><i class="fa-solid fa-chart-area"></i> Revenue Growth</h3>
+                            <div class="sales-chart-wrapper">
+                                <svg viewBox="0 0 1000 300" class="sales-svg">
+                                    <line x1="50" y1="250" x2="950" y2="250" stroke="var(--border-color)" stroke-width="1" />
+                                    <path d="M50,250 L50,200 L200,150 L350,180 L500,100 L650,120 L800,50 L950,90 L950,250 Z" fill="var(--primary-color)" fill-opacity="0.1" />
+                                    <path d="M50,200 L200,150 L350,180 L500,100 L650,120 L800,50 L950,90" fill="none" stroke="var(--primary-color)" stroke-width="4" stroke-linecap="round" />
+                                </svg>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section id="view-analytics" class="view">
+                    <div class="view-header"><h2>Web Analytics</h2></div>
+                    <div class="dashboard-grid">
+                        <article class="card card--full-width">
+                            <h3>Visitor Session Duration</h3>
+                            <div class="analytics-bars">
+                                <div class="analytics-item"><span>0-10s</span><div class="progress-bar"><div class="progress-fill" style="width: 45%; background: var(--danger-color)"></div></div><span>45%</span></div>
+                                <div class="analytics-item"><span>10-60s</span><div class="progress-bar"><div class="progress-fill" style="width: 25%; background: var(--warning-color)"></div></div><span>25%</span></div>
+                                <div class="analytics-item"><span>1-3m</span><div class="progress-bar"><div class="progress-fill" style="width: 20%; background: var(--primary-color)"></div></div><span>20%</span></div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section id="view-settings" class="view">
+                    <div class="view-header"><h2>Settings</h2></div>
+                    <div class="settings-grid">
+                        <div class="card">
+                            <h3><i class="fa-regular fa-user"></i> Profile Details</h3>
+                            <form class="settings-form">
+                                <div class="form-group"><label>Full Name</label><input type="text" class="form-input" value="Eyup Fidan"></div>
+                                <div class="form-group"><label>Email Address</label><input type="email" class="form-input" value="admin@nexus.com"></div>
+                                <div class="form-actions"><button type="button" class="btn btn--primary">Save Changes</button></div>
+                            </form>
+                        </div>
+                        <div class="card">
+                            <h3><i class="fa-regular fa-bell"></i> Preferences</h3>
+                            <div class="settings-list">
+                                <div class="setting-item"><div class="setting-info"><p class="setting-title">Dark Mode</p></div><label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <div id="modal-add-customer" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Add New Customer</h3>
+                <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form class="modal-form" id="add-customer-form">
+                    <input type="hidden" id="customer-id">
+                    <div class="form-row">
+                        <div class="form-group"><label>First Name</label><input type="text" id="customer-name" class="form-input" placeholder="e.g. John" required></div>
+                        <div class="form-group"><label>Last Name</label><input type="text" id="customer-surname" class="form-input" placeholder="e.g. Doe" required></div>
+                    </div>
+                    <div class="form-group"><label>Email</label><input type="email" id="customer-email" class="form-input" placeholder="john@example.com" required></div>
+                    <div class="form-group"><label>Role</label><select id="customer-role" class="form-input"><option value="New User">New User</option><option value="Developer">Developer</option><option value="Project Manager">Project Manager</option><option value="Designer">Designer</option></select></div>
+                    <div class="form-group"><label>Status</label><select id="customer-status" class="form-input"><option value="Active">Active</option><option value="Pending">Pending</option><option value="Inactive">Inactive</option></select></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn--white modal-close-btn">Cancel</button>
+                        <button type="submit" class="btn btn--primary" id="modal-submit-btn">Add Customer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

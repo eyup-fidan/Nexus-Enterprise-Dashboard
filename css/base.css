@@ -1,0 +1,52 @@
+:root {
+    /* LIGHT MODE (Varsayılan) */
+    --primary-color: #2563EB;      
+    --secondary-color: #1E293B;    
+    --bg-color: #F1F5F9;           
+    --surface-color: #FFFFFF;      
+    --text-main: #0F172A;          
+    --text-muted: #64748B;         
+    --border-color: #E2E8F0;
+    --success-color: #10B981;
+    --danger-color: #EF4444;
+    --warning-color: #F59E0B;
+
+    /* Spacing & Layout */
+    --sidebar-width: 260px;
+    --header-height: 70px;
+    --card-radius: 12px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+
+    /* Typography */
+    --font-family: 'Inter', sans-serif;
+}
+
+/* DARK MODE OVERRIDES */
+body.dark-mode {
+    --primary-color: #3B82F6;      /* Daha parlak mavi */
+    --secondary-color: #0F172A;    /* Daha koyu sidebar */
+    --bg-color: #0F172A;           /* Çok koyu lacivert arka plan */
+    --surface-color: #1E293B;      /* Koyu kart rengi */
+    --text-main: #F8FAFC;          /* Beyaz metin */
+    --text-muted: #94A3B8;         /* Gri metin */
+    --border-color: #334155;       /* Koyu border */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.5;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Renk geçişi yumuşatma */
+}
+
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; }
