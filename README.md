@@ -72,4 +72,4 @@ nexus-dashboard/
 │   
 ├── index.html           # SPA entry point
 ├── script.js            # Core business logic, State management, and UI interactions
-└── README.md            # Documentation
+└── README.md            # Documentation 
