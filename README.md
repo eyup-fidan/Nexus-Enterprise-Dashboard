@@ -66,7 +66,7 @@ nexus-dashboard/
 │   ├── base.css         # Basic reset, typography, and root variables
 │   ├── layout.css       # Grid structure, Sidebar, Header, and Responsive rules
 │   ├── components.css   # Cards, Buttons, Charts, Modals (BEM)
-│   └── main.css         # Main style file
+│   
 ├── images/              # Project screenshots and assets
 ├── index.html           # SPA entry point
 ├── script.js            # Core business logic, State management, and UI interactions
