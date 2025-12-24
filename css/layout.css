@@ -1,15 +1,16 @@
 .dashboard-container {
     display: grid;
-    grid-template-columns: var(--sidebar-width) 1fr; 
+    grid-template-columns: var(--sidebar-width) 1fr;
     min-height: 100vh;
     transition: all 0.3s ease;
+    position: relative;
 }
 
 /* Sidebar Styles */
 .sidebar {
     background-color: var(--secondary-color);
     color: white;
-    padding: 2rem 0; /* Padding'i sıfırladık, linklerde vereceğiz */
+    padding: 2rem 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -17,7 +18,9 @@
     top: 0;
     height: 100vh;
     z-index: 100;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: var(--sidebar-width);
+    flex-shrink: 0;
 }
 
 .sidebar__logo {
@@ -36,7 +39,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    flex: 1; 
+    flex: 1;
 }
 
 .sidebar__link {
@@ -44,9 +47,9 @@
     align-items: center;
     gap: 12px;
     padding: 12px 1.5rem;
-    color: #94A3B8; 
+    color: #94A3B8;
     transition: all 0.3s ease;
-    border-left: 4px solid transparent; /* Gizli sol border */
+    border-left: 4px solid transparent;
 }
 
 .sidebar__link:hover {
@@ -54,11 +57,10 @@
     color: white;
 }
 
-/* Aktif Link Efekti (Daha belirgin) */
 .sidebar__link--active {
     background-color: rgba(255, 255, 255, 0.1);
     color: white;
-    border-left-color: var(--primary-color); /* Mavi sol border */
+    border-left-color: var(--primary-color);
 }
 
 .sidebar__footer { padding: 0 1.5rem; }
@@ -68,6 +70,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    overflow-x: hidden; 
 }
 
 /* Topbar */
@@ -82,30 +85,31 @@
     position: sticky;
     top: 0;
     z-index: 90;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 .mobile-menu-btn {
     display: none;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: var(--text-main);
     background: none;
     border: none;
     cursor: pointer;
     margin-right: 15px;
+    padding: 5px;
 }
 
-.topbar__left { display: flex; align-items: center; }
+.topbar__left { display: flex; align-items: center; flex: 1; }
 
-/* Modern Arama Çubuğu */
 .topbar__search {
     display: flex;
     align-items: center;
     gap: 10px;
     background: var(--bg-color);
     padding: 10px 16px;
-    border-radius: 50px; /* Daha yuvarlak */
-    width: 350px;
+    border-radius: 50px;
+    width: 100%;
+    max-width: 350px;
     border: 2px solid transparent;
     transition: all 0.3s ease;
 }
@@ -128,7 +132,7 @@
 
 .topbar__search i { color: var(--text-muted); }
 
-.topbar__user { display: flex; align-items: center; gap: 20px; }
+.topbar__user { display: flex; align-items: center; gap: 15px; }
 
 .topbar__icon {
     position: relative;
@@ -137,6 +141,7 @@
     cursor: pointer;
     background: none;
     border: none;
+    padding: 5px;
     transition: color 0.3s;
 }
 
@@ -144,8 +149,8 @@
 
 .notification-dot {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 2px;
+    right: 2px;
     width: 8px;
     height: 8px;
     background-color: var(--danger-color);
@@ -153,17 +158,17 @@
     border: 2px solid var(--surface-color);
 }
 
-/* Yeni Kullanıcı Profili Alanı */
 .user-profile {
     display: flex;
     align-items: center;
     gap: 10px;
     cursor: pointer;
+    margin-left: 10px;
 }
 
 .user-avatar {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     border: 2px solid var(--border-color);
 }
@@ -174,39 +179,75 @@
     line-height: 1.2;
 }
 
-.user-name {
-    font-weight: 600;
-    font-size: 0.875rem;
-    color: var(--text-main);
-}
-
-.user-role {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-}
+.user-name { font-weight: 600; font-size: 0.875rem; color: var(--text-main); }
+.user-role { font-size: 0.75rem; color: var(--text-muted); }
 
 /* Dashboard Grid */
 .dashboard-grid {
     padding: 2rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
 }
 
-/* MOBILE RESPONSIVE */
+/* OVERLAY */
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 95;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(2px);
+}
+.sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* --- RESPONSIVE BREAKPOINTS --- */
+
 @media (max-width: 1024px) {
-    .dashboard-container { grid-template-columns: 1fr; }
+    .dashboard-container {
+        grid-template-columns: 1fr;
+    }
+
     .sidebar {
         position: fixed;
-        left: 0; top: 0; bottom: 0;
-        width: var(--sidebar-width);
+        left: 0;
+        top: 0;
+        bottom: 0;
         transform: translateX(-100%);
-        box-shadow: 4px 0 10px rgba(0,0,0,0.1);
-        padding: 2rem 0;
+        box-shadow: none;
     }
-    .sidebar.sidebar-open { transform: translateX(0); }
+    
+    .sidebar.sidebar-open {
+        transform: translateX(0);
+        box-shadow: 4px 0 20px rgba(0,0,0,0.2);
+    }
+
     .mobile-menu-btn { display: block; }
-    .topbar__search { display: none; }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
     .topbar { padding: 0 1rem; }
-    .user-details { display: none; } /* Mobilde ismi gizle */
+    
+    .topbar__search { display: none; }
+
+    .user-details { display: none; }
+    .user-dropdown-icon { display: none; }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .card--wide, .card--tall { grid-column: auto; grid-row: auto; }
 }

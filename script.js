@@ -10,7 +10,7 @@ let customers = JSON.parse(localStorage.getItem('nexusCustomers')) || defaultCus
 function saveCustomers() {
     localStorage.setItem('nexusCustomers', JSON.stringify(customers));
     renderCustomers();
-    updateDashboardStats(); // Dashboard sayısını güncelle
+    updateDashboardStats();
 }
 
 // --- STATE MANAGEMENT: TASKS (KANBAN) ---
@@ -34,6 +34,7 @@ const body = document.body;
 const sidebar = document.querySelector('.sidebar');
 const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 const customersTableBody = document.querySelector('#customers-table tbody');
+const sidebarOverlay = document.getElementById('sidebar-overlay');
 
 // Modal Elements
 const modalCustomer = document.getElementById('modal-add-customer');
@@ -124,12 +125,10 @@ function renderKanban() {
     const progressContainer = document.getElementById('kanban-progress');
     const doneContainer = document.getElementById('kanban-done');
     
-    // Clear Containers
     if(todoContainer) todoContainer.innerHTML = '';
     if(progressContainer) progressContainer.innerHTML = '';
     if(doneContainer) doneContainer.innerHTML = '';
 
-    // Update Counts
     let counts = { todo: 0, progress: 0, done: 0 };
 
     tasks.forEach(task => {
@@ -145,7 +144,6 @@ function renderKanban() {
         card.id = task.id;
         card.setAttribute('ondragstart', 'drag(event)');
         
-        // Date formatting (simple)
         const dateObj = new Date(task.date);
         const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
@@ -180,12 +178,10 @@ function drop(ev) {
     
     if (targetColumn) {
         const newStatus = targetColumn.getAttribute('data-status');
-        
-        // Update Data Model
         const taskIndex = tasks.findIndex(t => t.id === data);
         if (taskIndex > -1 && tasks[taskIndex].status !== newStatus) {
             tasks[taskIndex].status = newStatus;
-            saveTasks(); // This re-renders the board
+            saveTasks();
             showToast(`Task moved to ${newStatus.toUpperCase()}`, 'success');
         }
     }
@@ -208,7 +204,7 @@ if (addTaskForm) {
 
         const newTask = {
             id: 'task-' + Date.now(),
-            title, tag, date, status: 'todo' // Default to todo
+            title, tag, date, status: 'todo'
         };
 
         tasks.push(newTask);
@@ -227,7 +223,7 @@ window.deleteTask = function(id) {
     }
 }
 
-// --- CUSTOMER CRUD (ADD / UPDATE / DELETE) ---
+// --- CUSTOMER CRUD ---
 if (addCustomerForm) {
     addCustomerForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -429,3 +425,29 @@ function showToast(message, type = 'success') {
     container.appendChild(toast);
     setTimeout(() => toast.remove(), 3500);
 }
+
+// --- MOBILE SIDEBAR LOGIC ---
+if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        sidebar.classList.toggle('sidebar-open');
+        if (sidebarOverlay) sidebarOverlay.classList.toggle('active');
+    });
+}
+
+if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', () => {
+        sidebar.classList.remove('sidebar-open');
+        sidebarOverlay.classList.remove('active');
+    });
+}
+
+// Menü linklerine tıklayınca mobilde menüyü kapat
+document.querySelectorAll('.sidebar__link').forEach(link => {
+    link.addEventListener('click', () => {
+        if (window.innerWidth <= 1024) {
+            sidebar.classList.remove('sidebar-open');
+            if (sidebarOverlay) sidebarOverlay.classList.remove('active');
+        }
+    });
+});
