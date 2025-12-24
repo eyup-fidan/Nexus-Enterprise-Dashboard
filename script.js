@@ -136,7 +136,7 @@ function renderCustomers(data = customers) {
     // Update Pagination Controls
     setupPagination(data, document.querySelector('.pagination-buttons'), rowsPerPage);
     
-    // Update Info Text (Showing 1-10 of 50)
+    // Update Info Text
     const info = document.getElementById('pagination-info');
     if(info) {
         if(data.length === 0) {
@@ -377,7 +377,7 @@ if (searchInput) {
             c.lastName.toLowerCase().includes(term) ||
             c.email.toLowerCase().includes(term)
         );
-        currentPage = 1; // Arama yapınca 1. sayfaya dön
+        currentPage = 1; 
         renderCustomers(filtered);
     });
 }
@@ -390,7 +390,7 @@ if (sortSelect) {
         if (type === 'oldest') sorted.sort((a, b) => new Date(a.joined) - new Date(b.joined));
         if (type === 'az') sorted.sort((a, b) => a.firstName.localeCompare(b.firstName));
         if (type === 'za') sorted.sort((a, b) => b.firstName.localeCompare(a.firstName));
-        currentPage = 1; // Sıralama değişince 1. sayfaya dön
+        currentPage = 1; 
         renderCustomers(sorted);
     });
 }

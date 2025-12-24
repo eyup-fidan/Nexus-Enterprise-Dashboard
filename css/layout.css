@@ -1,3 +1,4 @@
+/* layout.css - FULL VERSION */
 .dashboard-container {
     display: grid;
     grid-template-columns: var(--sidebar-width) 1fr;
@@ -73,15 +74,14 @@
     overflow-x: hidden; 
 }
 
-/* Topbar - GÜNCELLENDİ */
+/* Topbar */
 .topbar {
     height: var(--header-height);
     background-color: var(--surface-color);
     border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
-    /* justify-content: space-between; KALDIRILDI, gap ile kontrol edilecek */
-    gap: 20px; /* Elemanlar arası boşluk */
+    gap: 20px; 
     padding: 0 2rem;
     position: sticky;
     top: 0;
@@ -97,18 +97,17 @@
     border: none;
     cursor: pointer;
     padding: 5px;
-    flex-shrink: 0; /* Küçülmesin */
+    flex-shrink: 0; 
 }
 
 .topbar__left { 
     display: flex; 
     align-items: center; 
-    flex: 1; /* Boş alanı kaplasın */
+    flex: 1; 
     gap: 15px;
-    min-width: 0; /* İçeriğin taşmasını engeller */
+    min-width: 0; 
 }
 
-/* Arama Çubuğu - GÜNCELLENDİ */
 .topbar__search {
     display: flex;
     align-items: center;
@@ -117,10 +116,10 @@
     padding: 10px 16px;
     border-radius: 50px;
     width: 100%;
-    max-width: 400px; /* Biraz daha genişleyebilir */
+    max-width: 400px; 
     border: 2px solid transparent;
     transition: all 0.3s ease;
-    flex: 1; /* Gerektiğinde küçülüp büyüyebilsin */
+    flex: 1; 
 }
 
 .topbar__search:focus-within {
@@ -141,12 +140,11 @@
 
 .topbar__search i { color: var(--text-muted); flex-shrink: 0; }
 
-/* Kullanıcı Alanı - GÜNCELLENDİ */
 .topbar__user { 
     display: flex; 
     align-items: center; 
     gap: 15px;
-    flex-shrink: 0; /* Asla küçülmesin, diğerlerini sıkıştırmasın */
+    flex-shrink: 0; 
 }
 
 .topbar__icon {

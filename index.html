@@ -263,14 +263,168 @@
                 </section>
 
                 <section id="view-analytics" class="view">
-                    <div class="view-header"><h2>Web Analytics</h2></div>
-                    <div class="dashboard-grid">
-                        <article class="card card--full-width">
-                            <h3>Visitor Session Duration</h3>
+                    <div class="view-header">
+                        <h2>Web Analytics</h2>
+                        <div class="view-actions">
+                            <select class="form-input" style="width: auto;">
+                                <option>Last 7 Days</option>
+                                <option>Last 30 Days</option>
+                                <option>This Year</option>
+                            </select>
+                            <button class="btn btn--primary"><i class="fa-solid fa-download"></i> Export Report</button>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 1.5rem;">
+                        <article class="card card--stat">
+                            <h3><i class="fa-solid fa-eye"></i> Page Views</h3>
+                            <p class="stat-value">84,392</p>
+                            <span class="stat-trend stat-trend--up"><i class="fa-solid fa-arrow-trend-up"></i> +12%</span>
+                        </article>
+                        <article class="card card--stat">
+                            <h3><i class="fa-solid fa-stopwatch"></i> Avg. Time</h3>
+                            <p class="stat-value">4m 32s</p>
+                            <span class="stat-trend stat-trend--up"><i class="fa-solid fa-arrow-trend-up"></i> +8%</span>
+                        </article>
+                        <article class="card card--stat">
+                            <h3><i class="fa-solid fa-person-walking-arrow-right"></i> Bounce Rate</h3>
+                            <p class="stat-value">42.5%</p>
+                            <span class="stat-trend stat-trend--down" style="color: var(--success-color);"><i class="fa-solid fa-arrow-trend-down"></i> -2%</span>
+                        </article>
+                        <article class="card card--stat">
+                            <h3><i class="fa-solid fa-globe"></i> New Users</h3>
+                            <p class="stat-value">1,204</p>
+                            <span class="stat-trend stat-trend--up"><i class="fa-solid fa-arrow-trend-up"></i> +15%</span>
+                        </article>
+                    </div>
+
+                    <div class="dashboard-grid" style="grid-template-columns: 2fr 1fr;">
+                        
+                        <article class="card card--wide">
+                            <div class="card-header-flex">
+                                <h3><i class="fa-solid fa-braille"></i> User Retention & Activity Heatmap</h3>
+                                <div class="legend-dots">
+                                    <span>Less</span>
+                                    <span class="dot-scale level-1"></span>
+                                    <span class="dot-scale level-2"></span>
+                                    <span class="dot-scale level-3"></span>
+                                    <span class="dot-scale level-4"></span>
+                                    <span>More</span>
+                                </div>
+                            </div>
+                            <div class="heatmap-wrapper">
+                                <div class="heatmap-grid">
+                                     <div class="heat-box level-1"></div><div class="heat-box level-2"></div><div class="heat-box level-3"></div><div class="heat-box level-4"></div><div class="heat-box level-2"></div><div class="heat-box level-1"></div><div class="heat-box level-1"></div>
+                                     <div class="heat-box level-2"></div><div class="heat-box level-3"></div><div class="heat-box level-4"></div><div class="heat-box level-4"></div><div class="heat-box level-3"></div><div class="heat-box level-2"></div><div class="heat-box level-1"></div>
+                                     <div class="heat-box level-1"></div><div class="heat-box level-2"></div><div class="heat-box level-3"></div><div class="heat-box level-4"></div><div class="heat-box level-2"></div><div class="heat-box level-1"></div><div class="heat-box level-1"></div>
+                                     <div class="heat-box level-3"></div><div class="heat-box level-4"></div><div class="heat-box level-4"></div><div class="heat-box level-2"></div><div class="heat-box level-1"></div><div class="heat-box level-2"></div><div class="heat-box level-3"></div>
+                                     <div class="heat-box level-2"></div><div class="heat-box level-1"></div><div class="heat-box level-2"></div><div class="heat-box level-3"></div><div class="heat-box level-4"></div><div class="heat-box level-3"></div><div class="heat-box level-2"></div>
+                                </div>
+                                <div class="heatmap-labels">
+                                    <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                                </div>
+                            </div>
+                            <div class="chart-footer-info">
+                                <p>Most active time: <strong>Wednesday, 14:00 - 16:00</strong></p>
+                            </div>
+                        </article>
+
+                        <article class="card">
+                            <h3><i class="fa-solid fa-share-nodes"></i> Traffic Sources</h3>
+                            <div class="traffic-list">
+                                <div class="traffic-item">
+                                    <div class="traffic-icon google"><i class="fa-brands fa-google"></i></div>
+                                    <div class="traffic-info">
+                                        <span>Organic Search</span>
+                                        <div class="progress-mini"><div class="fill" style="width: 65%; background: #4285F4"></div></div>
+                                    </div>
+                                    <span class="traffic-value">65%</span>
+                                </div>
+                                <div class="traffic-item">
+                                    <div class="traffic-icon direct"><i class="fa-solid fa-link"></i></div>
+                                    <div class="traffic-info">
+                                        <span>Direct</span>
+                                        <div class="progress-mini"><div class="fill" style="width: 20%; background: #34A853"></div></div>
+                                    </div>
+                                    <span class="traffic-value">20%</span>
+                                </div>
+                                <div class="traffic-item">
+                                    <div class="traffic-icon social"><i class="fa-brands fa-twitter"></i></div>
+                                    <div class="traffic-info">
+                                        <span>Social Media</span>
+                                        <div class="progress-mini"><div class="fill" style="width: 10%; background: #1DA1F2"></div></div>
+                                    </div>
+                                    <span class="traffic-value">10%</span>
+                                </div>
+                                <div class="traffic-item">
+                                    <div class="traffic-icon referral"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+                                    <div class="traffic-info">
+                                        <span>Referral</span>
+                                        <div class="progress-mini"><div class="fill" style="width: 5%; background: #FBBC05"></div></div>
+                                    </div>
+                                    <span class="traffic-value">5%</span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr; margin-top: 1.5rem;">
+                        <article class="card">
+                            <h3><i class="fa-solid fa-earth-americas"></i> Top Countries</h3>
+                            <div class="country-list">
+                                <div class="country-item">
+                                    <span class="flag">🇺🇸</span>
+                                    <span class="country-name">United States</span>
+                                    <div class="country-bar"><div class="c-fill" style="width: 70%"></div></div>
+                                    <span class="country-count">32k</span>
+                                </div>
+                                <div class="country-item">
+                                    <span class="flag">🇩🇪</span>
+                                    <span class="country-name">Germany</span>
+                                    <div class="country-bar"><div class="c-fill" style="width: 55%"></div></div>
+                                    <span class="country-count">18k</span>
+                                </div>
+                                <div class="country-item">
+                                    <span class="flag">🇹🇷</span>
+                                    <span class="country-name">Turkey</span>
+                                    <div class="country-bar"><div class="c-fill" style="width: 45%"></div></div>
+                                    <span class="country-count">12k</span>
+                                </div>
+                                <div class="country-item">
+                                    <span class="flag">🇬🇧</span>
+                                    <span class="country-name">United Kingdom</span>
+                                    <div class="country-bar"><div class="c-fill" style="width: 30%"></div></div>
+                                    <span class="country-count">8k</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="card">
+                            <h3><i class="fa-regular fa-clock"></i> Session Duration</h3>
                             <div class="analytics-bars">
-                                <div class="analytics-item"><span>0-10s</span><div class="progress-bar"><div class="progress-fill" style="width: 45%; background: var(--danger-color)"></div></div><span>45%</span></div>
-                                <div class="analytics-item"><span>10-60s</span><div class="progress-bar"><div class="progress-fill" style="width: 25%; background: var(--warning-color)"></div></div><span>25%</span></div>
-                                <div class="analytics-item"><span>1-3m</span><div class="progress-bar"><div class="progress-fill" style="width: 20%; background: var(--primary-color)"></div></div><span>20%</span></div>
+                                <div class="analytics-item">
+                                    <span style="white-space:nowrap; width: 60px;">0-10s</span>
+                                    <div class="progress-bar"><div class="progress-fill" style="width: 45%; background: var(--danger-color)"></div></div>
+                                    <span style="text-align:right;">45%</span>
+                                </div>
+                                <div class="analytics-item">
+                                    <span style="white-space:nowrap; width: 60px;">10-60s</span>
+                                    <div class="progress-bar"><div class="progress-fill" style="width: 25%; background: var(--warning-color)"></div></div>
+                                    <span style="text-align:right;">25%</span>
+                                </div>
+                                <div class="analytics-item">
+                                    <span style="white-space:nowrap; width: 60px;">1-3m</span>
+                                    <div class="progress-bar"><div class="progress-fill" style="width: 20%; background: var(--primary-color)"></div></div>
+                                    <span style="text-align:right;">20%</span>
+                                </div>
+                                <div class="analytics-item">
+                                    <span style="white-space:nowrap; width: 60px;">3m+</span>
+                                    <div class="progress-bar"><div class="progress-fill" style="width: 10%; background: var(--success-color)"></div></div>
+                                    <span style="text-align:right;">10%</span>
+                                </div>
+                            </div>
+                            <div class="chart-footer-info" style="margin-top: 20px;">
+                                <p>Average session has increased by <strong>12%</strong> compared to last week.</p>
                             </div>
                         </article>
                     </div>
