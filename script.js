@@ -2,10 +2,23 @@
 const defaultCustomers = [
     { id: 1, firstName: 'Ayşe', lastName: 'Soylu', email: 'ayse@example.com', role: 'Project Manager', status: 'Active', joined: '2023-12-01' },
     { id: 2, firstName: 'Mustafa', lastName: 'Kaya', email: 'mustafa@example.com', role: 'Developer', status: 'Pending', joined: '2023-11-15' },
-    { id: 3, firstName: 'Burak', lastName: 'Er', email: 'burak@example.com', role: 'Designer', status: 'Inactive', joined: '2023-10-20' }
+    { id: 3, firstName: 'Burak', lastName: 'Er', email: 'burak@example.com', role: 'Designer', status: 'Inactive', joined: '2023-10-20' },
+    { id: 4, firstName: 'Zeynep', lastName: 'Yılmaz', email: 'zeynep@example.com', role: 'Developer', status: 'Active', joined: '2023-12-05' },
+    { id: 5, firstName: 'Ahmet', lastName: 'Demir', email: 'ahmet@example.com', role: 'New User', status: 'Active', joined: '2023-12-10' },
+    { id: 6, firstName: 'Mehmet', lastName: 'Çelik', email: 'mehmet@example.com', role: 'Project Manager', status: 'Pending', joined: '2023-11-25' },
+    { id: 7, firstName: 'Elif', lastName: 'Koç', email: 'elif@example.com', role: 'Designer', status: 'Active', joined: '2023-10-30' },
+    { id: 8, firstName: 'Can', lastName: 'Öztürk', email: 'can@example.com', role: 'Developer', status: 'Inactive', joined: '2023-09-15' },
+    { id: 9, firstName: 'Selin', lastName: 'Arslan', email: 'selin@example.com', role: 'New User', status: 'Active', joined: '2023-12-20' },
+    { id: 10, firstName: 'Deniz', lastName: 'Kara', email: 'deniz@example.com', role: 'Developer', status: 'Active', joined: '2023-12-22' },
+    { id: 11, firstName: 'Ozan', lastName: 'Kurt', email: 'ozan@example.com', role: 'Designer', status: 'Pending', joined: '2023-11-05' },
+    { id: 12, firstName: 'Gizem', lastName: 'Aydın', email: 'gizem@example.com', role: 'Project Manager', status: 'Active', joined: '2023-10-10' }
 ];
 
 let customers = JSON.parse(localStorage.getItem('nexusCustomers')) || defaultCustomers;
+
+// Pagination Variables
+let currentPage = 1;
+const rowsPerPage = 10;
 
 function saveCustomers() {
     localStorage.setItem('nexusCustomers', JSON.stringify(customers));
@@ -69,12 +82,17 @@ function updateDashboardStats() {
     }
 }
 
-// --- RENDER CUSTOMERS ---
+// --- RENDER CUSTOMERS (WITH PAGINATION) ---
 function renderCustomers(data = customers) {
     if (!customersTableBody) return;
     customersTableBody.innerHTML = '';
     
-    data.forEach(customer => {
+    // Pagination Logic
+    const start = (currentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const paginatedItems = data.slice(start, end);
+
+    paginatedItems.forEach(customer => {
         const initials = (customer.firstName[0] + customer.lastName[0]).toUpperCase();
         const fullName = `${customer.firstName} ${customer.lastName}`;
         
@@ -115,8 +133,58 @@ function renderCustomers(data = customers) {
         customersTableBody.appendChild(row);
     });
     
+    // Update Pagination Controls
+    setupPagination(data, document.querySelector('.pagination-buttons'), rowsPerPage);
+    
+    // Update Info Text (Showing 1-10 of 50)
     const info = document.getElementById('pagination-info');
-    if(info) info.innerHTML = `Showing <strong>${data.length}</strong> customers`;
+    if(info) {
+        if(data.length === 0) {
+            info.innerHTML = "No customers found";
+        } else {
+            info.innerHTML = `Showing <strong>${start + 1}-${Math.min(end, data.length)}</strong> of <strong>${data.length}</strong> customers`;
+        }
+    }
+}
+
+// --- SETUP PAGINATION CONTROLS ---
+function setupPagination(items, wrapper, rowsPerPage) {
+    wrapper.innerHTML = "";
+    const pageCount = Math.ceil(items.length / rowsPerPage);
+    
+    if (pageCount === 0) return;
+
+    // Previous Button
+    const prevBtn = document.createElement('button');
+    prevBtn.innerText = 'Previous';
+    if (currentPage === 1) prevBtn.disabled = true;
+    prevBtn.addEventListener('click', () => {
+        currentPage--;
+        renderCustomers(items);
+    });
+    wrapper.appendChild(prevBtn);
+
+    // Page Number Buttons
+    for (let i = 1; i <= pageCount; i++) {
+        const btn = document.createElement('button');
+        btn.innerText = i;
+        if (currentPage === i) btn.classList.add('active');
+        btn.addEventListener('click', () => {
+            currentPage = i;
+            renderCustomers(items);
+        });
+        wrapper.appendChild(btn);
+    }
+
+    // Next Button
+    const nextBtn = document.createElement('button');
+    nextBtn.innerText = 'Next';
+    if (currentPage === pageCount) nextBtn.disabled = true;
+    nextBtn.addEventListener('click', () => {
+        currentPage++;
+        renderCustomers(items);
+    });
+    wrapper.appendChild(nextBtn);
 }
 
 // --- RENDER KANBAN (DYNAMIC) ---
@@ -309,6 +377,7 @@ if (searchInput) {
             c.lastName.toLowerCase().includes(term) ||
             c.email.toLowerCase().includes(term)
         );
+        currentPage = 1; // Arama yapınca 1. sayfaya dön
         renderCustomers(filtered);
     });
 }
@@ -321,6 +390,7 @@ if (sortSelect) {
         if (type === 'oldest') sorted.sort((a, b) => new Date(a.joined) - new Date(b.joined));
         if (type === 'az') sorted.sort((a, b) => a.firstName.localeCompare(b.firstName));
         if (type === 'za') sorted.sort((a, b) => b.firstName.localeCompare(a.firstName));
+        currentPage = 1; // Sıralama değişince 1. sayfaya dön
         renderCustomers(sorted);
     });
 }
