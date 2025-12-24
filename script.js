@@ -495,7 +495,7 @@ function showToast(message, type = 'success') {
     container.appendChild(toast);
     setTimeout(() => toast.remove(), 3500);
 }
-
+ 
 // --- MOBILE SIDEBAR LOGIC ---
 if (mobileMenuBtn) {
     mobileMenuBtn.addEventListener('click', (e) => {
