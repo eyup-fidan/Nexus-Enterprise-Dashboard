@@ -297,7 +297,7 @@ document.addEventListener('click', (e) => {
         document.getElementById('notification-dropdown')?.classList.remove('show');
     }
 });
-
+ 
 const profileBtn = document.getElementById('user-profile-btn');
 if (profileBtn) {
     profileBtn.addEventListener('click', (e) => {
