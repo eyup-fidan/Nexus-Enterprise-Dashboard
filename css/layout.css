@@ -1,4 +1,4 @@
-/* layout.css - FULL VERSION */
+/* layout.css - FINAL VERSION */
 .dashboard-container {
     display: grid;
     grid-template-columns: var(--sidebar-width) 1fr;
@@ -238,7 +238,7 @@
         transform: translateX(0);
         box-shadow: 4px 0 20px rgba(0,0,0,0.2);
     }
- 
+
     .mobile-menu-btn { display: block; }
 
     .dashboard-grid {
