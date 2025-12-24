@@ -1,4 +1,4 @@
-# 🚀 Nexus Enterprise Dashboard
+# Nexus Enterprise Dashboard
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
 ![Version](https://img.shields.io/badge/version-1.0.0-success.svg?style=flat-square)
@@ -10,15 +10,15 @@
 
 ---
 
-## 🌟 About the Project
+## About the Project
 
 **Nexus Dashboard** is a high-performance Single Page Application (SPA) template that pushes modern web standards (ES6+, CSS Grid/Flexbox) to their limits. It demonstrates how complex and interactive interfaces can be built using the browser's native capabilities, without the need for heavy libraries like React or Vue.
 
 The project includes modules for **Kanban Management**, **Financial Analytics**, **User Management**, and **Detailed Settings**, providing a persistent experience by storing all data in `LocalStorage`.
 
-### 🔗 Key Features
+### Key Features
 
-* **⚡ Zero-Dependency:** No external frameworks. Pure performance.
+* **Zero-Dependency:** No external frameworks. Pure performance.
 * **🎨 Advanced Theming:** Flawless **Dark/Light Mode** via CSS Variables.
 * **📊 Interactive Charts:** Heatmaps and Charts rendered using CSS and SVG without JS chart libraries.
 * **✅ Kanban Board:** Drag & Drop task management using the HTML5 Drag & Drop API.
@@ -28,7 +28,7 @@ The project includes modules for **Kanban Management**, **Financial Analytics**,
 
 ---
 
-## 📸 Project Screenshots
+## Project Screenshots
 
 Here is a visual tour of the Nexus Enterprise Dashboard interface:
 
@@ -44,7 +44,7 @@ Here is a visual tour of the Nexus Enterprise Dashboard interface:
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 This project is built using the following modern web technologies:
 
@@ -58,7 +58,7 @@ This project is built using the following modern web technologies:
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 nexus-dashboard/
