@@ -232,31 +232,201 @@
                 </section>
 
                 <section id="view-sales" class="view">
-                    <div class="view-header"><h2>Sales Performance</h2></div>
-                    <div class="dashboard-grid">
-                        <article class="card card--stat">
-                            <h3><i class="fa-solid fa-cart-shopping"></i> Total Sales</h3>
-                            <p class="stat-value">1,482</p>
-                            <span class="stat-trend stat-trend--up"><i class="fa-solid fa-arrow-trend-up"></i> +8.2%</span>
+                    <div class="view-header">
+                        <h2>Sales Overview</h2>
+                        <div class="view-actions">
+                            <div class="date-picker-trigger">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>Dec 01 - Dec 31</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <button class="btn btn--primary"><i class="fa-solid fa-file-invoice-dollar"></i> Generate Report</button>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 1.5rem;">
+                        <article class="card card--kpi">
+                            <div class="kpi-icon sales"><i class="fa-solid fa-wallet"></i></div>
+                            <div class="kpi-content">
+                                <p class="kpi-title">Total Revenue</p>
+                                <h3 class="kpi-value">$128,450</h3>
+                                <div class="kpi-meta">
+                                    <span class="trend trend--up"><i class="fa-solid fa-arrow-up"></i> 12%</span>
+                                    <span class="trend-text">vs last month</span>
+                                </div>
+                            </div>
+                            <div class="mini-chart sales-chart"></div>
                         </article>
-                        <article class="card card--stat">
-                            <h3><i class="fa-solid fa-dollar-sign"></i> Avg. Order Value</h3>
-                            <p class="stat-value">$85.40</p>
-                            <span class="stat-trend stat-trend--down"><i class="fa-solid fa-arrow-trend-down"></i> -2.1%</span>
+                        <article class="card card--kpi">
+                            <div class="kpi-icon orders"><i class="fa-solid fa-box-open"></i></div>
+                            <div class="kpi-content">
+                                <p class="kpi-title">Total Orders</p>
+                                <h3 class="kpi-value">1,540</h3>
+                                <div class="kpi-meta">
+                                    <span class="trend trend--up"><i class="fa-solid fa-arrow-up"></i> 8%</span>
+                                    <span class="trend-text">vs last month</span>
+                                </div>
+                            </div>
+                            <div class="mini-chart orders-chart"></div>
                         </article>
-                        <article class="card card--stat">
-                            <h3><i class="fa-solid fa-rotate"></i> Conversion Rate</h3>
-                            <p class="stat-value">3.6%</p>
-                            <span class="stat-trend stat-trend--up"><i class="fa-solid fa-arrow-trend-up"></i> +0.5%</span>
+                        <article class="card card--kpi">
+                            <div class="kpi-icon profit"><i class="fa-solid fa-chart-line"></i></div>
+                            <div class="kpi-content">
+                                <p class="kpi-title">Net Profit</p>
+                                <h3 class="kpi-value">$45,200</h3>
+                                <div class="kpi-meta">
+                                    <span class="trend trend--up"><i class="fa-solid fa-arrow-up"></i> 24%</span>
+                                    <span class="trend-text">vs last month</span>
+                                </div>
+                            </div>
+                            <div class="mini-chart profit-chart"></div>
                         </article>
-                        <article class="card card--full-width">
-                            <h3><i class="fa-solid fa-chart-area"></i> Revenue Growth</h3>
+                        <article class="card card--kpi">
+                            <div class="kpi-icon expense"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                            <div class="kpi-content">
+                                <p class="kpi-title">Expenses</p>
+                                <h3 class="kpi-value">$12,800</h3>
+                                <div class="kpi-meta">
+                                    <span class="trend trend--down"><i class="fa-solid fa-arrow-down"></i> 5%</span>
+                                    <span class="trend-text">vs last month</span>
+                                </div>
+                            </div>
+                            <div class="mini-chart expense-chart"></div>
+                        </article>
+                    </div>
+
+                    <div class="dashboard-grid" style="grid-template-columns: 2fr 1fr;">
+                        
+                        <article class="card card--wide">
+                            <div class="card-header-flex">
+                                <h3><i class="fa-solid fa-chart-area"></i> Revenue Growth</h3>
+                                <div class="chart-actions">
+                                    <span class="chart-dot revenue">Revenue</span>
+                                    <span class="chart-dot profit">Profit</span>
+                                </div>
+                            </div>
                             <div class="sales-chart-wrapper">
                                 <svg viewBox="0 0 1000 300" class="sales-svg">
                                     <line x1="50" y1="250" x2="950" y2="250" stroke="var(--border-color)" stroke-width="1" />
-                                    <path d="M50,250 L50,200 L200,150 L350,180 L500,100 L650,120 L800,50 L950,90 L950,250 Z" fill="var(--primary-color)" fill-opacity="0.1" />
-                                    <path d="M50,200 L200,150 L350,180 L500,100 L650,120 L800,50 L950,90" fill="none" stroke="var(--primary-color)" stroke-width="4" stroke-linecap="round" />
+                                    <line x1="50" y1="200" x2="950" y2="200" stroke="var(--border-color)" stroke-width="1" stroke-dasharray="5,5"/>
+                                    <line x1="50" y1="150" x2="950" y2="150" stroke="var(--border-color)" stroke-width="1" stroke-dasharray="5,5"/>
+                                    
+                                    <defs>
+                                        <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" style="stop-color:var(--primary-color);stop-opacity:0.3" />
+                                            <stop offset="100%" style="stop-color:var(--primary-color);stop-opacity:0" />
+                                        </linearGradient>
+                                    </defs>
+                                    <path d="M50,250 L50,180 L150,120 L250,160 L350,100 L450,130 L550,80 L650,110 L750,50 L850,90 L950,40 L950,250 Z" fill="url(#grad1)" />
+                                    <path d="M50,180 L150,120 L250,160 L350,100 L450,130 L550,80 L650,110 L750,50 L850,90 L950,40" fill="none" stroke="var(--primary-color)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                    
+                                    <path d="M50,220 L150,190 L250,200 L350,160 L450,180 L550,140 L650,160 L750,120 L850,140 L950,100" fill="none" stroke="var(--success-color)" stroke-width="2" stroke-dasharray="5,5"/>
                                 </svg>
+                            </div>
+                        </article>
+
+                        <article class="card">
+                            <h3><i class="fa-solid fa-bullseye"></i> Monthly Target</h3>
+                            <div class="target-container">
+                                <div class="radial-progress" style="--percent: 75">
+                                    <div class="inner-circle">
+                                        <span class="target-percent">75%</span>
+                                        <span class="target-label">Achieved</span>
+                                    </div>
+                                </div>
+                                <div class="target-stats">
+                                    <div class="t-stat">
+                                        <span class="t-label">Target</span>
+                                        <span class="t-val">$150k</span>
+                                    </div>
+                                    <div class="t-stat">
+                                        <span class="t-label">Current</span>
+                                        <span class="t-val">$128k</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn--white full-width">View Details</button>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="dashboard-grid" style="grid-template-columns: 2fr 1fr; margin-top: 1.5rem;">
+                        <article class="card card--wide">
+                            <div class="card-header-flex">
+                                <h3><i class="fa-solid fa-list-check"></i> Recent Orders</h3>
+                                <a href="#" class="view-all-link">View All</a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead><tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Amount</th><th>Status</th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="order-id">#NX-8854</span></td>
+                                            <td><div class="user-info sm"><div class="user-initials sm2" style="background: #E0F2FE; color: #0284C7">AS</div><span>Ayşe S.</span></div></td>
+                                            <td>Pro Plan (Yearly)</td>
+                                            <td class="text-bold">$120.00</td>
+                                            <td><span class="badge badge--success">Paid</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="order-id">#NX-8853</span></td>
+                                            <td><div class="user-info sm"><div class="user-initials sm2" style="background: #F3E8FF; color: #7E22CE">MK</div><span>Mehmet K.</span></div></td>
+                                            <td>Design Assets</td>
+                                            <td class="text-bold">$45.00</td>
+                                            <td><span class="badge badge--warning">Pending</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="order-id">#NX-8852</span></td>
+                                            <td><div class="user-info sm"><div class="user-initials sm2" style="background: #FEF3C7; color: #D97706">JD</div><span>John D.</span></div></td>
+                                            <td>Consultation</td>
+                                            <td class="text-bold">$250.00</td>
+                                            <td><span class="badge badge--danger">Failed</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="order-id">#NX-8851</span></td>
+                                            <td><div class="user-info sm"><div class="user-initials sm2" style="background: #DCFCE7; color: #166534">EL</div><span>Elif L.</span></div></td>
+                                            <td>Basic Plan</td>
+                                            <td class="text-bold">$29.00</td>
+                                            <td><span class="badge badge--success">Paid</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </article>
+
+                        <article class="card">
+                            <h3><i class="fa-solid fa-trophy"></i> Top Selling</h3>
+                            <div class="product-list">
+                                <div class="product-item">
+                                    <div class="product-img" style="background-color: #E0F2FE;"><i class="fa-solid fa-cube" style="color: #0284C7"></i></div>
+                                    <div class="product-info">
+                                        <span class="p-name">Nexus Pro UI</span>
+                                        <span class="p-sales">1,240 sales</span>
+                                    </div>
+                                    <span class="p-earnings">$24k</span>
+                                </div>
+                                <div class="product-item">
+                                    <div class="product-img" style="background-color: #F3E8FF;"><i class="fa-solid fa-layer-group" style="color: #7E22CE"></i></div>
+                                    <div class="product-info">
+                                        <span class="p-name">Dashboard Kit</span>
+                                        <span class="p-sales">850 sales</span>
+                                    </div>
+                                    <span class="p-earnings">$12k</span>
+                                </div>
+                                <div class="product-item">
+                                    <div class="product-img" style="background-color: #DCFCE7;"><i class="fa-solid fa-code" style="color: #166534"></i></div>
+                                    <div class="product-info">
+                                        <span class="p-name">React Template</span>
+                                        <span class="p-sales">620 sales</span>
+                                    </div>
+                                    <span class="p-earnings">$8.5k</span>
+                                </div>
+                                <div class="product-item">
+                                    <div class="product-img" style="background-color: #FEF3C7;"><i class="fa-solid fa-wand-magic-sparkles" style="color: #D97706"></i></div>
+                                    <div class="product-info">
+                                        <span class="p-name">Icon Pack</span>
+                                        <span class="p-sales">450 sales</span>
+                                    </div>
+                                    <span class="p-earnings">$4.2k</span>
+                                </div>
                             </div>
                         </article>
                     </div>
