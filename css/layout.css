@@ -73,14 +73,15 @@
     overflow-x: hidden; 
 }
 
-/* Topbar */
+/* Topbar - GÜNCELLENDİ */
 .topbar {
     height: var(--header-height);
     background-color: var(--surface-color);
     border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; KALDIRILDI, gap ile kontrol edilecek */
+    gap: 20px; /* Elemanlar arası boşluk */
     padding: 0 2rem;
     position: sticky;
     top: 0;
@@ -95,12 +96,19 @@
     background: none;
     border: none;
     cursor: pointer;
-    margin-right: 15px;
     padding: 5px;
+    flex-shrink: 0; /* Küçülmesin */
 }
 
-.topbar__left { display: flex; align-items: center; flex: 1; }
+.topbar__left { 
+    display: flex; 
+    align-items: center; 
+    flex: 1; /* Boş alanı kaplasın */
+    gap: 15px;
+    min-width: 0; /* İçeriğin taşmasını engeller */
+}
 
+/* Arama Çubuğu - GÜNCELLENDİ */
 .topbar__search {
     display: flex;
     align-items: center;
@@ -109,9 +117,10 @@
     padding: 10px 16px;
     border-radius: 50px;
     width: 100%;
-    max-width: 350px;
+    max-width: 400px; /* Biraz daha genişleyebilir */
     border: 2px solid transparent;
     transition: all 0.3s ease;
+    flex: 1; /* Gerektiğinde küçülüp büyüyebilsin */
 }
 
 .topbar__search:focus-within {
@@ -130,9 +139,15 @@
     font-size: 0.875rem;
 }
 
-.topbar__search i { color: var(--text-muted); }
+.topbar__search i { color: var(--text-muted); flex-shrink: 0; }
 
-.topbar__user { display: flex; align-items: center; gap: 15px; }
+/* Kullanıcı Alanı - GÜNCELLENDİ */
+.topbar__user { 
+    display: flex; 
+    align-items: center; 
+    gap: 15px;
+    flex-shrink: 0; /* Asla küçülmesin, diğerlerini sıkıştırmasın */
+}
 
 .topbar__icon {
     position: relative;
@@ -179,12 +194,11 @@
     line-height: 1.2;
 }
 
-.user-name { font-weight: 600; font-size: 0.875rem; color: var(--text-main); }
-.user-role { font-size: 0.75rem; color: var(--text-muted); }
+.user-name { font-weight: 600; font-size: 0.875rem; color: var(--text-main); white-space: nowrap; }
+.user-role { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; }
 
 /* Dashboard Grid */
 .dashboard-grid {
-    padding: 2rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
@@ -231,12 +245,11 @@
 
     .dashboard-grid {
         grid-template-columns: repeat(2, 1fr);
-        padding: 1.5rem;
     }
 }
 
 @media (max-width: 768px) {
-    .topbar { padding: 0 1rem; }
+    .topbar { padding: 0 1rem; gap: 10px; }
     
     .topbar__search { display: none; }
 
@@ -246,7 +259,6 @@
     .dashboard-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
-        padding: 1rem;
     }
 
     .card--wide, .card--tall { grid-column: auto; grid-row: auto; }

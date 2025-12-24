@@ -51,7 +51,7 @@
 /* --- KANBAN BOARD STYLES --- */
 .kanban-board {
     display: flex; gap: 1.5rem; overflow-x: auto; padding-bottom: 20px;
-    height: calc(100vh - 180px);
+    height: calc(100vh - 220px);
     scroll-snap-type: x mandatory;
 }
 .kanban-column {
@@ -147,6 +147,7 @@
     width: 100%; 
     min-height: 250px; 
     -webkit-overflow-scrolling: touch;
+    position: relative; /* Menü için gerekli */
 }
 .table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; min-width: 600px; }
 .table th {
@@ -158,6 +159,7 @@
     padding: 18px 0;
     font-size: 0.875rem; border-bottom: 1px solid var(--border-color);
     vertical-align: middle; color: var(--text-main);
+    position: relative; /* Menü konumu için */
 }
 .table tr:last-child td { border-bottom: none; }
 .table tbody tr { transition: background-color 0.2s; }
@@ -195,7 +197,9 @@
 .transaction-amount--minus { color: var(--text-main); }
 
 /* --- SPA Views --- */
-.view { display: none; opacity: 0; transition: opacity 0.3s ease; }
+.view { display: none; opacity: 0; transition: opacity 0.3s ease; padding: 2rem; }
+@media (max-width: 1024px) { .view { padding: 1.5rem; } }
+@media (max-width: 768px) { .view { padding: 1rem; } }
 .view--active { display: block; animation: fadeIn 0.4s forwards; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .view-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 10px; }
@@ -214,7 +218,7 @@
 .control-search input { width: 100%; padding: 10px 10px 10px 36px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-main); outline: none; }
 .control-search input:focus { border-color: var(--primary-color); background: var(--surface-color); }
 .control-sort select { padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-main); outline: none; margin-left: 8px; }
-.action-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; }
+.action-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; padding: 5px; }
 .action-btn:hover { color: var(--primary-color); }
 
 /* --- PAGINATION --- */
@@ -305,9 +309,35 @@ input:checked + .slider:before { transform: translateX(20px); }
 .dropdown-item i { width: 16px; text-align: center; }
 .text-danger { color: var(--danger-color) !important; }
 .dropdown-divider { height: 1px; background-color: var(--border-color); margin: 5px 0; }
-.action-wrapper { position: relative; }
-.action-menu { position: absolute; top: 100%; right: 0; width: 140px; background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: var(--shadow-md); z-index: 100; display: none; flex-direction: column; padding: 5px 0; }
+
+/* --- ACTION MENU DÜZELTMESİ --- */
+.action-wrapper { position: relative; display: inline-block; }
+.action-menu { 
+    position: absolute; 
+    top: 100%; 
+    right: 0; 
+    width: auto; /* Genişliği içeriğe göre ayarla */
+    min-width: 150px; /* Minimum genişlik */
+    background-color: var(--surface-color); 
+    border: 1px solid var(--border-color); 
+    border-radius: 8px; 
+    box-shadow: var(--shadow-md); 
+    z-index: 1050; /* Diğer elementlerin üzerinde kalsın */
+    display: none; 
+    flex-direction: column; 
+    padding: 5px 0; 
+    margin-top: 5px;
+}
 .action-menu.show { display: flex; }
-.action-item { padding: 8px 12px; font-size: 0.8rem; color: var(--text-main); display: flex; align-items: center; gap: 8px; transition: background 0.2s; }
+.action-item { 
+    padding: 10px 15px; 
+    font-size: 0.85rem; 
+    color: var(--text-main); 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    transition: background 0.2s;
+    white-space: nowrap; /* Metinlerin kırılmasını engelle */
+}
 .action-item:hover { background-color: var(--bg-color); }
-.action-item i { font-size: 0.9rem; }
+.action-item i { font-size: 0.9rem; width: 16px; text-align: center; }
