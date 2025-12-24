@@ -103,7 +103,7 @@
                         </article>
                         <article class="card card--stat">
                             <h3><i class="fa-solid fa-user-group"></i> Active Users</h3>
-                            <p class="stat-value">1,240</p>
+                            <p class="stat-value" id="stat-active-users">0</p>
                             <span class="stat-trend stat-trend--up"><i class="fa-solid fa-arrow-trend-up"></i> +5%</span>
                         </article>
                         <article class="card card--donut-overview">
@@ -161,75 +161,35 @@
                 <section id="view-projects" class="view">
                     <div class="view-header">
                         <h2>Project Board</h2>
-                        <button class="btn btn--primary"><i class="fa-solid fa-plus"></i> New Task</button>
+                        <button id="btn-add-task" class="btn btn--primary"><i class="fa-solid fa-plus"></i> New Task</button>
                     </div>
                     <div class="kanban-board">
                         <div class="kanban-column" id="todo-column">
                             <div class="kanban-header">
                                 <span class="status-dot status-todo"></span>
                                 <h3>To Do</h3>
-                                <span class="count">3</span>
+                                <span class="count" id="count-todo">0</span>
                             </div>
-                            <div class="kanban-items" ondrop="drop(event)" ondragover="allowDrop(event)" data-status="todo">
-                                <div class="kanban-card" draggable="true" ondragstart="drag(event)" id="task-1">
-                                    <div class="card-tags"><span class="tag tag--design">Design</span></div>
-                                    <h4 class="card-title">Homepage Redesign</h4>
-                                    <div class="card-meta">
-                                        <div class="card-users"><div class="user-initials sm" style="background: #E0F2FE; color: #0284C7">AH</div></div>
-                                        <div class="card-date"><i class="fa-regular fa-clock"></i> 2 days</div>
-                                    </div>
+                            <div class="kanban-items" id="kanban-todo" ondrop="drop(event)" ondragover="allowDrop(event)" data-status="todo">
                                 </div>
-                                <div class="kanban-card" draggable="true" ondragstart="drag(event)" id="task-2">
-                                    <div class="card-tags"><span class="tag tag--dev">Backend</span></div>
-                                    <h4 class="card-title">API Integration</h4>
-                                    <div class="card-meta">
-                                        <div class="card-users"><div class="user-initials sm" style="background: #F3E8FF; color: #7E22CE">AS</div></div>
-                                        <div class="card-date"><i class="fa-regular fa-clock"></i> 5 days</div>
-                                    </div>
-                                </div>
-                                <div class="kanban-card" draggable="true" ondragstart="drag(event)" id="task-5">
-                                    <div class="card-tags"><span class="tag tag--marketing">Marketing</span></div>
-                                    <h4 class="card-title">SEO Optimization</h4>
-                                    <div class="card-meta">
-                                        <div class="card-users"><div class="user-initials sm" style="background: #DCFCE7; color: #166534">MK</div></div>
-                                        <div class="card-date"><i class="fa-regular fa-clock"></i> 1 week</div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="kanban-column" id="progress-column">
                             <div class="kanban-header">
                                 <span class="status-dot status-progress"></span>
                                 <h3>In Progress</h3>
-                                <span class="count">1</span>
+                                <span class="count" id="count-progress">0</span>
                             </div>
-                            <div class="kanban-items" ondrop="drop(event)" ondragover="allowDrop(event)" data-status="progress">
-                                <div class="kanban-card" draggable="true" ondragstart="drag(event)" id="task-3">
-                                    <div class="card-tags"><span class="tag tag--dev">Frontend</span></div>
-                                    <h4 class="card-title">Dashboard Dark Mode</h4>
-                                    <div class="card-meta">
-                                        <div class="card-users"><div class="user-initials sm" style="background: #0D8ABC; color: #fff">EF</div></div>
-                                        <div class="card-date text-warning"><i class="fa-regular fa-clock"></i> Today</div>
-                                    </div>
+                            <div class="kanban-items" id="kanban-progress" ondrop="drop(event)" ondragover="allowDrop(event)" data-status="progress">
                                 </div>
-                            </div>
                         </div>
                         <div class="kanban-column" id="done-column">
                             <div class="kanban-header">
                                 <span class="status-dot status-done"></span>
                                 <h3>Done</h3>
-                                <span class="count">1</span>
+                                <span class="count" id="count-done">0</span>
                             </div>
-                            <div class="kanban-items" ondrop="drop(event)" ondragover="allowDrop(event)" data-status="done">
-                                <div class="kanban-card" draggable="true" ondragstart="drag(event)" id="task-4">
-                                    <div class="card-tags"><span class="tag tag--design">Design</span></div>
-                                    <h4 class="card-title">Icon Set Selection</h4>
-                                    <div class="card-meta">
-                                        <div class="card-users"><div class="user-initials sm" style="background: #FEE2E2; color: #DC2626">BE</div></div>
-                                        <div class="card-date text-success"><i class="fa-solid fa-check"></i> Completed</div>
-                                    </div>
+                            <div class="kanban-items" id="kanban-done" ondrop="drop(event)" ondragover="allowDrop(event)" data-status="done">
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </section>
@@ -362,7 +322,42 @@
                 </form>
             </div>
         </div>
-    </div> 
+    </div>
+
+    <div id="modal-add-task" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Task</h3>
+                <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form class="modal-form" id="add-task-form">
+                    <div class="form-group">
+                        <label>Task Title</label>
+                        <input type="text" id="task-title" class="form-input" placeholder="e.g. Redesign Homepage" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tag</label>
+                            <select id="task-tag" class="form-input">
+                                <option value="design">Design</option>
+                                <option value="dev">Development</option>
+                                <option value="marketing">Marketing</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Due Date</label>
+                            <input type="date" id="task-date" class="form-input" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn--white modal-close-btn">Cancel</button>
+                        <button type="submit" class="btn btn--primary">Create Task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div id="toast-container"></div>
 

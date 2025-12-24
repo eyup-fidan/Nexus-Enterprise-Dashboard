@@ -16,7 +16,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-} 
+}
 
 .card h3 i { color: var(--text-muted); font-size: 1rem; }
 .card--wide { grid-column: span 2; }
@@ -68,7 +68,7 @@
 .kanban-card {
     background: var(--surface-color); padding: 1rem; border-radius: 8px;
     box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); cursor: grab;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s; position: relative;
 }
 .kanban-card:active { cursor: grabbing; transform: scale(1.02); }
 .kanban-card:hover { box-shadow: var(--shadow-md); border-color: var(--primary-color); }
@@ -80,6 +80,13 @@
 .card-title { font-size: 0.9rem; font-weight: 600; color: var(--text-main); margin-bottom: 10px; }
 .card-meta { display: flex; align-items: center; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); }
 .user-initials.sm { width: 24px; height: 24px; font-size: 0.65rem; }
+
+/* Task Delete Button (New) */
+.task-delete-btn {
+    position: absolute; top: 10px; right: 10px; opacity: 0; transition: opacity 0.2s;
+    background: none; border: none; color: var(--danger-color); cursor: pointer;
+}
+.kanban-card:hover .task-delete-btn { opacity: 1; }
 
 /* --- CHARTS (CSS & SVG) --- */
 .donut-container { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
@@ -196,63 +203,27 @@
 
 /* --- PAGINATION (DÜZELTİLDİ) --- */
 .pagination {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border-color);
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);
 }
-
-.pagination-info {
-    font-size: 0.875rem;
-    color: var(--text-muted);
-}
-
-.pagination-info strong {
-    color: var(--text-main);
-}
-
-.pagination-buttons {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Butonlar arası boşluk */
-}
-
+.pagination-info { font-size: 0.875rem; color: var(--text-muted); }
+.pagination-info strong { color: var(--text-main); }
+.pagination-buttons { display: flex; align-items: center; gap: 8px; }
 .pagination-buttons button {
-    display: flex; 
-    align-items: center;
-    justify-content: center;
-    min-width: 36px; /* Sabit kare */
-    height: 36px;
-    padding: 0 12px; /* Previous/Next yazıları için yan boşluk */
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    background: var(--surface-color);
-    color: var(--text-main);
-    cursor: pointer;
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
+    display: flex; align-items: center; justify-content: center;
+    min-width: 36px; height: 36px; padding: 0 12px;
+    border-radius: 8px; border: 1px solid var(--border-color);
+    background: var(--surface-color); color: var(--text-main); cursor: pointer;
+    font-size: 0.875rem; font-weight: 500; transition: all 0.2s ease;
 }
-
 .pagination-buttons button.active {
-    background-color: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
+    background-color: var(--primary-color); color: white; border-color: var(--primary-color);
     box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
 }
-
 .pagination-buttons button:hover:not(.active):not(:disabled) {
-    background-color: var(--bg-color);
-    border-color: #cbd5e1;
+    background-color: var(--bg-color); border-color: #cbd5e1;
 }
-
-.pagination-buttons button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background-color: var(--bg-color);
-}
+.pagination-buttons button:disabled { opacity: 0.5; cursor: not-allowed; background-color: var(--bg-color); }
 
 /* --- EMPTY STATES & SETTINGS --- */
 .empty-state { text-align: center; padding: 4rem 2rem; background: var(--surface-color); border-radius: var(--card-radius); border: 1px solid var(--border-color); }

@@ -1,4 +1,4 @@
-// --- STATE MANAGEMENT (DATA) ---
+// --- STATE MANAGEMENT: CUSTOMERS ---
 const defaultCustomers = [
     { id: 1, firstName: 'Ayşe', lastName: 'Soylu', email: 'ayse@example.com', role: 'Project Manager', status: 'Active', joined: '2023-12-01' },
     { id: 2, firstName: 'Mustafa', lastName: 'Kaya', email: 'mustafa@example.com', role: 'Developer', status: 'Pending', joined: '2023-11-15' },
@@ -10,6 +10,22 @@ let customers = JSON.parse(localStorage.getItem('nexusCustomers')) || defaultCus
 function saveCustomers() {
     localStorage.setItem('nexusCustomers', JSON.stringify(customers));
     renderCustomers();
+    updateDashboardStats(); // Dashboard sayısını güncelle
+}
+
+// --- STATE MANAGEMENT: TASKS (KANBAN) ---
+const defaultTasks = [
+    { id: 'task-1', title: 'Homepage Redesign', tag: 'design', date: '2023-12-28', status: 'todo' },
+    { id: 'task-2', title: 'API Integration', tag: 'dev', date: '2023-12-30', status: 'todo' },
+    { id: 'task-3', title: 'Dashboard Dark Mode', tag: 'dev', date: '2023-12-24', status: 'progress' },
+    { id: 'task-4', title: 'Icon Set Selection', tag: 'design', date: '2023-12-20', status: 'done' }
+];
+
+let tasks = JSON.parse(localStorage.getItem('nexusTasks')) || defaultTasks;
+
+function saveTasks() {
+    localStorage.setItem('nexusTasks', JSON.stringify(tasks));
+    renderKanban();
 }
 
 // --- DOM ELEMENTS ---
@@ -18,12 +34,19 @@ const body = document.body;
 const sidebar = document.querySelector('.sidebar');
 const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 const customersTableBody = document.querySelector('#customers-table tbody');
-const modal = document.getElementById('modal-add-customer');
-const openModalBtn = document.getElementById('btn-add-customer');
-const closeModalElements = document.querySelectorAll('.modal-close, .modal-close-btn');
+
+// Modal Elements
+const modalCustomer = document.getElementById('modal-add-customer');
+const openModalCustomerBtn = document.getElementById('btn-add-customer');
 const addCustomerForm = document.getElementById('add-customer-form');
-const modalTitle = document.getElementById('modal-title');
-const modalSubmitBtn = document.getElementById('modal-submit-btn');
+const modalCustomerTitle = document.getElementById('modal-title');
+const modalCustomerSubmitBtn = document.getElementById('modal-submit-btn');
+
+const modalTask = document.getElementById('modal-add-task');
+const openModalTaskBtn = document.getElementById('btn-add-task');
+const addTaskForm = document.getElementById('add-task-form');
+
+const closeModalElements = document.querySelectorAll('.modal-close, .modal-close-btn');
 
 // --- INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -33,9 +56,19 @@ document.addEventListener('DOMContentLoaded', () => {
         themeToggleBtn.innerHTML = '<i class="fa-regular fa-sun"></i>';
     }
     renderCustomers();
+    renderKanban();
+    updateDashboardStats();
 });
 
-// --- RENDER CUSTOMERS (GÜNCELLENDİ: SADELEŞTİRİLMİŞ TABLO) ---
+// --- HELPER: UPDATE DASHBOARD STATS ---
+function updateDashboardStats() {
+    const activeUsersEl = document.getElementById('stat-active-users');
+    if (activeUsersEl) {
+        activeUsersEl.textContent = customers.length.toLocaleString();
+    }
+}
+
+// --- RENDER CUSTOMERS ---
 function renderCustomers(data = customers) {
     if (!customersTableBody) return;
     customersTableBody.innerHTML = '';
@@ -56,7 +89,6 @@ function renderCustomers(data = customers) {
         if (customer.status === 'Inactive') badgeClass = 'badge--danger';
 
         const row = document.createElement('tr');
-        // Sütunlar azaltıldı, email ismin altına alındı
         row.innerHTML = `
             <td>
                 <div class="user-info">
@@ -86,11 +118,119 @@ function renderCustomers(data = customers) {
     if(info) info.innerHTML = `Showing <strong>${data.length}</strong> customers`;
 }
 
-// --- CRUD OPERATIONS ---
+// --- RENDER KANBAN (DYNAMIC) ---
+function renderKanban() {
+    const todoContainer = document.getElementById('kanban-todo');
+    const progressContainer = document.getElementById('kanban-progress');
+    const doneContainer = document.getElementById('kanban-done');
+    
+    // Clear Containers
+    if(todoContainer) todoContainer.innerHTML = '';
+    if(progressContainer) progressContainer.innerHTML = '';
+    if(doneContainer) doneContainer.innerHTML = '';
+
+    // Update Counts
+    let counts = { todo: 0, progress: 0, done: 0 };
+
+    tasks.forEach(task => {
+        counts[task.status]++;
+        
+        let tagClass = 'tag--dev';
+        if(task.tag === 'design') tagClass = 'tag--design';
+        if(task.tag === 'marketing') tagClass = 'tag--marketing';
+
+        const card = document.createElement('div');
+        card.className = 'kanban-card';
+        card.draggable = true;
+        card.id = task.id;
+        card.setAttribute('ondragstart', 'drag(event)');
+        
+        // Date formatting (simple)
+        const dateObj = new Date(task.date);
+        const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+        card.innerHTML = `
+            <button class="task-delete-btn" onclick="deleteTask('${task.id}')"><i class="fa-solid fa-times"></i></button>
+            <div class="card-tags"><span class="tag ${tagClass}">${task.tag}</span></div>
+            <h4 class="card-title">${task.title}</h4>
+            <div class="card-meta">
+                <div class="card-users"><div class="user-initials sm" style="background: #E2E8F0; color: #64748B"><i class="fa-solid fa-user"></i></div></div>
+                <div class="card-date"><i class="fa-regular fa-clock"></i> ${dateStr}</div>
+            </div>
+        `;
+
+        if (task.status === 'todo') todoContainer.appendChild(card);
+        else if (task.status === 'progress') progressContainer.appendChild(card);
+        else if (task.status === 'done') doneContainer.appendChild(card);
+    });
+
+    document.getElementById('count-todo').textContent = counts.todo;
+    document.getElementById('count-progress').textContent = counts.progress;
+    document.getElementById('count-done').textContent = counts.done;
+}
+
+// --- KANBAN DRAG & DROP LOGIC ---
+function allowDrop(ev) { ev.preventDefault(); }
+function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+
+function drop(ev) {
+    ev.preventDefault();
+    const data = ev.dataTransfer.getData("text");
+    const targetColumn = ev.target.closest('.kanban-items');
+    
+    if (targetColumn) {
+        const newStatus = targetColumn.getAttribute('data-status');
+        
+        // Update Data Model
+        const taskIndex = tasks.findIndex(t => t.id === data);
+        if (taskIndex > -1 && tasks[taskIndex].status !== newStatus) {
+            tasks[taskIndex].status = newStatus;
+            saveTasks(); // This re-renders the board
+            showToast(`Task moved to ${newStatus.toUpperCase()}`, 'success');
+        }
+    }
+}
+
+// --- ADD TASK LOGIC ---
+if (openModalTaskBtn) {
+    openModalTaskBtn.addEventListener('click', () => {
+        addTaskForm.reset();
+        modalTask.classList.add('modal-open');
+    });
+}
+
+if (addTaskForm) {
+    addTaskForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const title = document.getElementById('task-title').value;
+        const tag = document.getElementById('task-tag').value;
+        const date = document.getElementById('task-date').value;
+
+        const newTask = {
+            id: 'task-' + Date.now(),
+            title, tag, date, status: 'todo' // Default to todo
+        };
+
+        tasks.push(newTask);
+        saveTasks();
+        modalTask.classList.remove('modal-open');
+        showToast('New task created!', 'success');
+        addNotification(`New task created: ${title}`);
+    });
+}
+
+window.deleteTask = function(id) {
+    if(confirm('Delete this task?')) {
+        tasks = tasks.filter(t => t.id !== id);
+        saveTasks();
+        showToast('Task deleted', 'error');
+    }
+}
+
+// --- CUSTOMER CRUD (ADD / UPDATE / DELETE) ---
 if (addCustomerForm) {
     addCustomerForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
         const id = document.getElementById('customer-id').value;
         const firstName = document.getElementById('customer-name').value;
         const lastName = document.getElementById('customer-surname').value;
@@ -104,7 +244,7 @@ if (addCustomerForm) {
             if (index > -1) {
                 customers[index] = { ...customers[index], firstName, lastName, email, role, status };
                 showToast(`Customer updated successfully!`, 'success');
-                addNotification(`Updated customer details: ${fullName}`);
+                addNotification(`Updated customer: ${fullName}`);
             }
         } else {
             const newCustomer = {
@@ -116,14 +256,13 @@ if (addCustomerForm) {
             showToast(`New customer added!`, 'success');
             addNotification(`New customer added: ${fullName}`);
         }
-
         saveCustomers();
-        closeModal();
+        modalCustomer.classList.remove('modal-open');
     });
 }
 
 window.deleteCustomer = function(id) {
-    if (confirm('Are you sure you want to delete this customer?')) {
+    if (confirm('Delete this customer?')) {
         customers = customers.filter(c => c.id !== id);
         saveCustomers();
         showToast('Customer deleted.', 'error');
@@ -140,9 +279,104 @@ window.openEditModal = function(id) {
     document.getElementById('customer-email').value = customer.email;
     document.getElementById('customer-role').value = customer.role || 'New User';
     document.getElementById('customer-status').value = customer.status;
-    modalTitle.textContent = 'Edit Customer';
-    modalSubmitBtn.textContent = 'Update Changes';
-    modal.classList.add('modal-open');
+    modalCustomerTitle.textContent = 'Edit Customer';
+    modalCustomerSubmitBtn.textContent = 'Update Changes';
+    modalCustomer.classList.add('modal-open');
+}
+
+// --- MODAL UTILS ---
+if (openModalCustomerBtn) {
+    openModalCustomerBtn.addEventListener('click', () => {
+        addCustomerForm.reset();
+        document.getElementById('customer-id').value = '';
+        modalCustomerTitle.textContent = 'Add New Customer';
+        modalCustomerSubmitBtn.textContent = 'Add Customer';
+        modalCustomer.classList.add('modal-open');
+    });
+}
+
+function closeModal() {
+    document.querySelectorAll('.modal').forEach(m => m.classList.remove('modal-open'));
+}
+closeModalElements.forEach(el => el.addEventListener('click', closeModal));
+window.addEventListener('click', (e) => { if (e.target.classList.contains('modal')) closeModal(); });
+
+// --- SEARCH & SORT ---
+const searchInput = document.getElementById('table-search');
+const sortSelect = document.getElementById('sort-select');
+
+if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        const filtered = customers.filter(c => 
+            c.firstName.toLowerCase().includes(term) || 
+            c.lastName.toLowerCase().includes(term) ||
+            c.email.toLowerCase().includes(term)
+        );
+        renderCustomers(filtered);
+    });
+}
+
+if (sortSelect) {
+    sortSelect.addEventListener('change', (e) => {
+        const type = e.target.value;
+        let sorted = [...customers];
+        if (type === 'newest') sorted.sort((a, b) => new Date(b.joined) - new Date(a.joined));
+        if (type === 'oldest') sorted.sort((a, b) => new Date(a.joined) - new Date(b.joined));
+        if (type === 'az') sorted.sort((a, b) => a.firstName.localeCompare(b.firstName));
+        if (type === 'za') sorted.sort((a, b) => b.firstName.localeCompare(a.firstName));
+        renderCustomers(sorted);
+    });
+}
+
+// --- UI UTILITIES ---
+window.toggleActionMenu = function(btn) {
+    const menu = btn.nextElementSibling;
+    document.querySelectorAll('.action-menu.show').forEach(m => { if (m !== menu) m.classList.remove('show'); });
+    menu.classList.toggle('show');
+}
+
+themeToggleBtn.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+    const isDark = body.classList.contains('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    themeToggleBtn.innerHTML = isDark ? '<i class="fa-regular fa-sun"></i>' : '<i class="fa-regular fa-moon"></i>';
+});
+
+document.querySelectorAll('.sidebar__link[data-target]').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelectorAll('.sidebar__link').forEach(l => l.classList.remove('sidebar__link--active'));
+        link.classList.add('sidebar__link--active');
+        const target = link.getAttribute('data-target');
+        document.querySelectorAll('.view').forEach(v => {
+            v.classList.remove('view--active');
+            if (v.id === target) v.classList.add('view--active');
+        });
+        if (window.innerWidth <= 1024) sidebar.classList.remove('sidebar-open');
+    });
+});
+
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.action-wrapper')) {
+        document.querySelectorAll('.action-menu.show').forEach(m => m.classList.remove('show'));
+    }
+    const profileWrap = document.querySelector('.user-profile-wrapper');
+    if (profileWrap && !profileWrap.contains(e.target)) {
+        document.getElementById('profile-dropdown')?.classList.remove('show');
+    }
+    const notifWrap = document.querySelector('.notification-wrapper');
+    if (notifWrap && !notifWrap.contains(e.target)) {
+        document.getElementById('notification-dropdown')?.classList.remove('show');
+    }
+});
+
+const profileBtn = document.getElementById('user-profile-btn');
+if (profileBtn) {
+    profileBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.getElementById('profile-dropdown').classList.toggle('show');
+    });
 }
 
 // --- NOTIFICATION SYSTEM ---
@@ -185,126 +419,6 @@ document.getElementById('clear-notifications')?.addEventListener('click', (e) =>
     notifBadge.style.display = 'none';
     notifList.innerHTML = '<div class="empty-notif">No new notifications</div>';
 });
-
-// --- KANBAN DRAG & DROP LOGIC ---
-function allowDrop(ev) {
-    ev.preventDefault();
-}
-
-function drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
-    ev.target.classList.add('dragging');
-}
-
-function drop(ev) {
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    var draggedElement = document.getElementById(data);
-    draggedElement.classList.remove('dragging');
-    
-    var targetColumn = ev.target.closest('.kanban-items');
-    if (targetColumn) {
-        targetColumn.appendChild(draggedElement);
-    }
-}
-
-
-// --- MODAL UTILS ---
-if (openModalBtn) {
-    openModalBtn.addEventListener('click', () => {
-        addCustomerForm.reset();
-        document.getElementById('customer-id').value = '';
-        modalTitle.textContent = 'Add New Customer';
-        modalSubmitBtn.textContent = 'Add Customer';
-        modal.classList.add('modal-open');
-    });
-}
-
-function closeModal() { modal.classList.remove('modal-open'); }
-closeModalElements.forEach(el => el.addEventListener('click', closeModal));
-window.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-
-// --- SEARCH & SORT ---
-const searchInput = document.getElementById('table-search');
-const sortSelect = document.getElementById('sort-select');
-
-if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase();
-        const filtered = customers.filter(c => 
-            c.firstName.toLowerCase().includes(term) || 
-            c.lastName.toLowerCase().includes(term) ||
-            c.email.toLowerCase().includes(term)
-        );
-        renderCustomers(filtered);
-    });
-}
-
-if (sortSelect) {
-    sortSelect.addEventListener('change', (e) => {
-        const type = e.target.value;
-        let sorted = [...customers];
-        if (type === 'newest') sorted.sort((a, b) => new Date(b.joined) - new Date(a.joined));
-        if (type === 'oldest') sorted.sort((a, b) => new Date(a.joined) - new Date(b.joined));
-        if (type === 'az') sorted.sort((a, b) => a.firstName.localeCompare(b.firstName));
-        if (type === 'za') sorted.sort((a, b) => b.firstName.localeCompare(a.firstName));
-        renderCustomers(sorted);
-    });
-}
-
-// --- UI UTILITIES ---
-window.toggleActionMenu = function(btn) {
-    const menu = btn.nextElementSibling;
-    document.querySelectorAll('.action-menu.show').forEach(m => { if (m !== menu) m.classList.remove('show'); });
-    menu.classList.toggle('show');
-}
-
-themeToggleBtn.addEventListener('click', () => {
-    body.classList.toggle('dark-mode');
-    if (body.classList.contains('dark-mode')) {
-        themeToggleBtn.innerHTML = '<i class="fa-regular fa-sun"></i>';
-        localStorage.setItem('theme', 'dark');
-    } else {
-        themeToggleBtn.innerHTML = '<i class="fa-regular fa-moon"></i>';
-        localStorage.setItem('theme', 'light');
-    }
-});
-
-document.querySelectorAll('.sidebar__link[data-target]').forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        document.querySelectorAll('.sidebar__link').forEach(l => l.classList.remove('sidebar__link--active'));
-        link.classList.add('sidebar__link--active');
-        const target = link.getAttribute('data-target');
-        document.querySelectorAll('.view').forEach(v => {
-            v.classList.remove('view--active');
-            if (v.id === target) v.classList.add('view--active');
-        });
-        if (window.innerWidth <= 1024) sidebar.classList.remove('sidebar-open');
-    });
-});
-
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.action-wrapper')) {
-        document.querySelectorAll('.action-menu.show').forEach(m => m.classList.remove('show'));
-    }
-    const profileWrap = document.querySelector('.user-profile-wrapper');
-    if (profileWrap && !profileWrap.contains(e.target)) {
-        document.getElementById('profile-dropdown')?.classList.remove('show');
-    }
-    const notifWrap = document.querySelector('.notification-wrapper');
-    if (notifWrap && !notifWrap.contains(e.target)) {
-        document.getElementById('notification-dropdown')?.classList.remove('show');
-    }
-});
- 
-const profileBtn = document.getElementById('user-profile-btn');
-if (profileBtn) {
-    profileBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        document.getElementById('profile-dropdown').classList.toggle('show');
-    });
-}
 
 function showToast(message, type = 'success') {
     const container = document.getElementById('toast-container');
