@@ -1,9 +1,6 @@
 # Nexus Enterprise Dashboard
-
-![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
 ![Version](https://img.shields.io/badge/version-1.0.0-success.svg?style=flat-square)
 ![Tech](https://img.shields.io/badge/built%20with-Vanilla%20JS%20%7C%20CSS3-orange?style=flat-square)
-![Size](https://img.shields.io/github/repo-size/eyupfidan/nexus-dashboard?style=flat-square&color=blueviolet)
 
 > **Modern, High-Performance, and Zero-Dependency.**
 > A next-generation enterprise management panel built entirely with **Vanilla JavaScript** and **Advanced CSS3**, without any external frameworks.
